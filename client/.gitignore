@@ -24,3 +24,5 @@ yarn-error.log*
 
 /src/styles/css/*
 !.gitkeep
+
+.env

@@ -10,11 +10,11 @@ namespace GameCatalogApi.Models
         public string Title { get; set; }
 
         [Required]
-        [StringLength(15, MinimumLength = 2, ErrorMessage = "Developer length must be at least 2 and up to a maximum of 15 characters long.")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Developer length must be at least 2 and up to a maximum of 15 characters long.")]
         public string Developer { get; set; }
 
         [Required]
-        [StringLength(15, MinimumLength = 2, ErrorMessage = "Publisher length must be at least 2 and up to a maximum of 15 characters long.")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Publisher length must be at least 2 and up to a maximum of 15 characters long.")]
         public string Publisher { get; set; }
 
         [Required]
