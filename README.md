@@ -2,7 +2,7 @@
 
 ### ⚙️  Structure
 
--   Client w/ TypeScript, React, React Context API, React-Bootstrap  ✔️
+-   Client w/ TypeScript, React, React Context API, React-Bootstrap 🔧👷
 -  	Server w/ .NET Core, MongoDB  ✔️
 
 ### 🛠  Technologies
