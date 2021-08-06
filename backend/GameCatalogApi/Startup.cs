@@ -1,18 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using GameCatalogApi.Database;
 using GameCatalogApi.Services;
+using GameDataApp.Mongo;
+using GameDataApp.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using UserDataApp.Database;
 
 namespace GameCatalogApi
 {
@@ -28,21 +34,6 @@ namespace GameCatalogApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.Configure<GameCatalogDbConfig>(Configuration);
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GameCatalogApi", Version = "v1" });
-            });
-
-            services.AddSingleton<IDbClient, DbClient>();
-            services.AddTransient<IGameServices, GameServices>();
-
-            //JSON SERIALIZER
-            services.AddControllers().AddNewtonsoftJson(
-                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
             //CORS
             services.AddCors(options =>
             {
@@ -50,6 +41,49 @@ namespace GameCatalogApi
                     .AllowAnyMethod().AllowAnyHeader());
 
             });
+
+            services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GameCatalogApi", Version = "v1" });
+            });
+
+            //MONGO GAMES DB
+            services.Configure<GameCatalogDbConfig>(Configuration);
+            services.AddSingleton<IDbClient, DbClient>();
+            services.AddTransient<IGameServices, GameServices>();
+
+            //POSTGRES USERS DB
+            services.AddDbContext<UserAppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("NpgConnectionString")));
+
+            //JWT 
+            var secret =
+                Encoding.ASCII.GetBytes(Configuration.GetSection("JwtConfig:Secret").Value);
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(bearer =>
+                {
+                    bearer.RequireHttpsMetadata = false;
+                    bearer.SaveToken = true;
+                    bearer.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(secret),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+            services.AddSingleton<ITokenService, TokenService>();
+
+
+            //JSON SERIALIZER
+            services.AddControllers().AddNewtonsoftJson(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
         }
 
@@ -61,6 +95,7 @@ namespace GameCatalogApi
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GameCatalogApi v1"));
+
             }
 
             app.UseHttpsRedirection();
@@ -69,6 +104,7 @@ namespace GameCatalogApi
 
             app.UseCors("corsPolicy");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
