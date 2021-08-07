@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using UserDataApp.Database;
+using UserDataApp.Services;
 
 namespace GameCatalogApi
 {
@@ -56,6 +57,7 @@ namespace GameCatalogApi
 
             //POSTGRES USERS DB
             services.AddDbContext<UserAppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("NpgConnectionString")));
+            services.AddTransient<IUserService, UserService>();
 
             //JWT 
             var secret =

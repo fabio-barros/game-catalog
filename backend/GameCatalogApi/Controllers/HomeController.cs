@@ -20,35 +20,35 @@ namespace GameCatalogApi.Controllers
         }
 
         // POST: api/Login
-        [HttpPost]
-        [Route("login")]
-        [AllowAnonymous]
-        public async Task<ActionResult<dynamic>> Authenticate([FromBody] User model)
-        {
+        // [HttpPost]
+        // [Route("login")]
+        // [AllowAnonymous]
+        // public async Task<ActionResult<dynamic>> Authenticate([FromBody] User model)
+        // {
 
-            var user = UserRepository.GetUser(model.Email, model.Password);
+        //     // var user = UserRepository.GetUser(model.Email, model.Password);
 
-            if (user is null)
-                return BadRequest(new ArgumentNullException());
+        //     // if (user is null)
+        //     //     return BadRequest(new ArgumentNullException("vai dar não"));
 
-            try
-            {
-                var token = _tokenService.Generatetoken(user);
-                user.Password = "";
-                return new
-                {
-                    user = user,
-                    token = token
-                };
+        //     // try
+        //     // {
+        //     //     var token = _tokenService.Generatetoken(user);
+        //     //     user.Password = "";
+        //     //     return new
+        //     //     {
+        //     //         user = user,
+        //     //         token = token
+        //     //     };
 
-            }
-            //BookAlreadyExistsException
-            catch (Exception e)
-            {
+        //     // }
+        //     // //BookAlreadyExistsException
+        //     // catch (Exception e)
+        //     // {
 
-                return UnprocessableEntity(e.Message);
-            }
-        }
+        //     //     return UnprocessableEntity(e.Message);
+        //     // }
+        // }
 
         [HttpGet]
         [Route("anonymous")]

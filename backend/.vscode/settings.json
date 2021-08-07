@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "requestCert": true
+                }
+            },
+            "previewLimit": 50,
+            "server": "ec2-54-173-31-84.compute-1.amazonaws.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "heroku dotnet estudo",
+            "database": "dflcgdhjldihi3",
+            "username": "fhssmdiqqboznm",
+            "password": "9491b3c5a372ae69bd0fe2c9eef0127e525b132d6404ed01d319267595fed6a8"
+        }
+    ]
+}

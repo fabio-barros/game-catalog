@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using UserDataApp.Models;
 
 namespace UserDataApp.Database
 {
@@ -8,6 +9,8 @@ namespace UserDataApp.Database
           : base(options)
         {
         }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Game> Games { get; set; }
 
     }
 }
