@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UserDataApp.Database;
@@ -9,9 +10,10 @@ using UserDataApp.Database;
 namespace UserDataApp.Migrations
 {
     [DbContext(typeof(UserAppDbContext))]
-    partial class UserAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210807234813_ChangeGameTableName")]
+    partial class ChangeGameTableName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace UserDataApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("UserDataApp.Models.GameInfo", b =>
+            modelBuilder.Entity("UserDataApp.Models.GameFromMongo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,7 +43,7 @@ namespace UserDataApp.Migrations
 
                     b.HasIndex("UserIdNavigationId");
 
-                    b.ToTable("GameInfo");
+                    b.ToTable("GameIdsFromMongo");
                 });
 
             modelBuilder.Entity("UserDataApp.Models.User", b =>
@@ -83,7 +85,7 @@ namespace UserDataApp.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("UserDataApp.Models.GameInfo", b =>
+            modelBuilder.Entity("UserDataApp.Models.GameFromMongo", b =>
                 {
                     b.HasOne("UserDataApp.Models.User", "UserIdNavigation")
                         .WithMany("Games")

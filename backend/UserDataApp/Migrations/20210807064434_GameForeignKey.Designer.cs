@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UserDataApp.Database;
@@ -9,9 +10,10 @@ using UserDataApp.Database;
 namespace UserDataApp.Migrations
 {
     [DbContext(typeof(UserAppDbContext))]
-    partial class UserAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210807064434_GameForeignKey")]
+    partial class GameForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,34 +21,25 @@ namespace UserDataApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("UserDataApp.Models.GameInfo", b =>
+            modelBuilder.Entity("UserDataApp.Models.Game", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("GameFromMongoId")
-                        .IsRequired()
+                    b.Property<string>("GameId")
                         .HasColumnType("text")
                         .HasColumnName("Game Id");
 
                     b.Property<Guid?>("UserIdNavigationId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameFromMongoId")
-                        .IsUnique();
+                    b.HasKey("GameId");
 
                     b.HasIndex("UserIdNavigationId");
 
-                    b.ToTable("GameInfo");
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("UserDataApp.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -83,7 +76,7 @@ namespace UserDataApp.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("UserDataApp.Models.GameInfo", b =>
+            modelBuilder.Entity("UserDataApp.Models.Game", b =>
                 {
                     b.HasOne("UserDataApp.Models.User", "UserIdNavigation")
                         .WithMany("Games")

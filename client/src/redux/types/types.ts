@@ -9,7 +9,7 @@ export interface GameInterface {
     title: string;
     developer: string;
     publisher: string;
-    releaseDate: Date;
+    releaseDate: string; //Date
     coverArtUrl: string;
     price: number;
 }

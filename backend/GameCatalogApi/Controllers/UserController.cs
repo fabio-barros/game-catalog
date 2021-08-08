@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UserDataApp.Models;
 using UserDataApp.Services;
+using UserDataApp.Services.UserServices;
+
 namespace GameCatalogApi.Controllers
 {
     [ApiController]
@@ -22,11 +25,10 @@ namespace GameCatalogApi.Controllers
 
         }
 
-        // GET: api/Book
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetUsers([FromQuery, Range(1, int.MaxValue)] int page = 1, [FromQuery, Range(1, 50)] int qty = 5)
         {
-            var users = await _userService.GetAll();
+            var users = await _userService.GetAll(page, qty);
 
             if (users.Count == 0)
             {
@@ -36,72 +38,78 @@ namespace GameCatalogApi.Controllers
             return Ok(users);
         }
 
-        // GET: api/Book/5
-        [HttpGet("{id}", Name = "GetUser")]
-        public async Task<ActionResult<User>> GetUser([FromRoute] Guid id)
+        [HttpGet("{userId:guid}", Name = "GetUser")]
+        public async Task<ActionResult<User>> GetUser([FromRoute] Guid userId)
         {
-            var user = await _userService.Get(id);
+            var userFromDb = await _userService.Get(userId);
 
-            if (user == null)
+            if (userFromDb == null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(userFromDb);
         }
 
-        // POST: api/Book
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> AddUser(User user)
+        public async Task<ActionResult<UserViewModel>> AddUser([FromBody] UserInputModel userInputModelEntity)
         {
 
-            if (user is null)
+            if (userInputModelEntity is null)
                 return BadRequest(new ArgumentNullException());
 
             try
             {
-                var userEntity = await _userService.Add(user);
+                var userEntity = await _userService.Add(userInputModelEntity);
 
                 return Created(nameof(GetUser), userEntity);
 
             }
-            //BookAlreadyExistsException
+            //UserAlreadyExistsException
             catch (Exception e)
             {
-
                 return UnprocessableEntity(e.Message);
             }
         }
 
 
-        // PUT: api/Book/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser([FromRoute] Guid id, User user)
+        [HttpPut("{userId:guid}")]
+        public async Task<IActionResult> UpdateUser([FromRoute] Guid userId, [FromBody] UserInputModel userInputModelEntity)
         {
             try
             {
-                await _userService.Update(id, user);
+                await _userService.Update(userId, userInputModelEntity);
                 return NoContent();
 
             }
-            //BookDoesNotExistException
             catch (Exception e)
             {
                 return NotFound(e);
             }
         }
 
+        // [HttpPatch("{userId:guid}")]
+        // public async Task<IActionResult> AddGames([FromRoute] Guid userId, [FromBody] Game userInputModelEntity)
+        // {
+        //     try
+        //     {
+        //         await _userService.Update(userId, userInputModelEntity);
+        //         return NoContent();
 
+        //     }
+        //     //UserDoesNotExistException
+        //     catch (Exception e)
+        //     {
+        //         return NotFound(e);
+        //     }
+        // }
 
-        // DELETE: api/Book/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(Guid id)
+        [HttpDelete("{userId:guid}")]
+        public async Task<IActionResult> DeleteUser(Guid userId)
         {
             try
             {
-                await _userService.Delete(id);
+                await _userService.Delete(userId);
                 return NoContent();
             }
 

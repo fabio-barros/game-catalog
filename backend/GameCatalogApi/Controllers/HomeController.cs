@@ -5,6 +5,7 @@ using GameCatalogApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserDataApp.Models;
+using UserDataApp.Services.UserServices;
 
 namespace GameCatalogApi.Controllers
 {
@@ -14,41 +15,43 @@ namespace GameCatalogApi.Controllers
     public class HomeController : ControllerBase
     {
         private readonly ITokenService _tokenService;
-        public HomeController(ITokenService tokenService)
+
+        private readonly IUserService _userService;
+        public HomeController(IUserService userService, ITokenService tokenService)
         {
+            _userService = userService;
             _tokenService = tokenService;
         }
 
-        // POST: api/Login
-        // [HttpPost]
-        // [Route("login")]
-        // [AllowAnonymous]
-        // public async Task<ActionResult<dynamic>> Authenticate([FromBody] User model)
-        // {
+        [HttpPost]
+        [Route("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<dynamic>> Login([FromBody] User model)
+        {
 
-        //     // var user = UserRepository.GetUser(model.Email, model.Password);
+            var user = await _userService.Get(model.Id);
 
-        //     // if (user is null)
-        //     //     return BadRequest(new ArgumentNullException("vai dar não"));
+            if (user is null)
+                return BadRequest(new ArgumentNullException("vai dar não"));
 
-        //     // try
-        //     // {
-        //     //     var token = _tokenService.Generatetoken(user);
-        //     //     user.Password = "";
-        //     //     return new
-        //     //     {
-        //     //         user = user,
-        //     //         token = token
-        //     //     };
+            try
+            {
+                var token = _tokenService.Generatetoken(user);
+                user.Password = "";
+                return new
+                {
+                    user = user,
+                    token = token
+                };
 
-        //     // }
-        //     // //BookAlreadyExistsException
-        //     // catch (Exception e)
-        //     // {
+            }
+            //BookAlreadyExistsException
+            catch (Exception e)
+            {
 
-        //     //     return UnprocessableEntity(e.Message);
-        //     // }
-        // }
+                return UnprocessableEntity(e.Message);
+            }
+        }
 
         [HttpGet]
         [Route("anonymous")]

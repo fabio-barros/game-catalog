@@ -1,9 +1,11 @@
-import { FC, useEffect } from "react";
+import { FC, Fragment, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../../redux/actions/gameActions";
 import { ApplicationSate } from "../../redux/store";
 import { GameState } from "../../redux/types/types";
+import { Loader } from "../Loader";
+import { Message } from "../Message";
 
 const games = [
     {
@@ -65,7 +67,7 @@ const games = [
 
 interface HomeProps {}
 
-export const Home: FC<HomeProps> = ({}) => {
+export const Home: FC<HomeProps> = () => {
     const dispatch = useDispatch();
 
     const gameList = useSelector((state: ApplicationSate) => {
@@ -81,12 +83,21 @@ export const Home: FC<HomeProps> = ({}) => {
     }, [dispatch]);
 
     return (
-        <Container className="games-wrapper">
-            <Row>
-                {games.map((game) => {
-                    return <Col>{game.title}</Col>;
-                })}
-            </Row>
-        </Container>
+        <Fragment>
+            <Container className="games-wrapper">
+                <h1>Games</h1>
+                {loading ? (
+                    <Loader />
+                ) : error ? (
+                    <Message variant="danger">{error}</Message>
+                ) : (
+                    <Row>
+                        {data.map((game) => {
+                            return <Col>{game.title}</Col>;
+                        })}
+                    </Row>
+                )}
+            </Container>
+        </Fragment>
     );
 };
