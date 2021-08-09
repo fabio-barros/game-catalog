@@ -2024,19 +2024,19 @@
     "@types/react" "*"
     "@types/react-router-dom" "*"
 
-"@types/react-router-dom@*", "@types/react-router-dom@^5.1.7":
-  "integrity" "sha512-D5mHD6TbdV/DNHYsnwBTv+y73ei+mMjrkGrla86HthE4/PVvL1J94Bu3qABU+COXzpL23T1EZapVVpwHuBXiUg=="
-  "resolved" "https://registry.npmjs.org/@types/react-router-dom/-/react-router-dom-5.1.7.tgz"
-  "version" "5.1.7"
+"@types/react-router-dom@*", "@types/react-router-dom@^5.1.8":
+  "integrity" "sha512-03xHyncBzG0PmDmf8pf3rehtjY0NpUj7TIN46FrT5n1ZWHPZvXz32gUyNboJ+xsL8cpg8bQVLcllptcQHvocrw=="
+  "resolved" "https://registry.npmjs.org/@types/react-router-dom/-/react-router-dom-5.1.8.tgz"
+  "version" "5.1.8"
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
     "@types/react-router" "*"
 
-"@types/react-router@*":
-  "integrity" "sha512-z3UlMG/x91SFEVmmvykk9FLTliDvfdIUky4k2rCfXWQ0NKbrP8o9BTCaCTPuYsB8gDkUnUmkcA2vYlm2DR+HAA=="
-  "resolved" "https://registry.npmjs.org/@types/react-router/-/react-router-5.1.15.tgz"
-  "version" "5.1.15"
+"@types/react-router@*", "@types/react-router@^5.1.16":
+  "integrity" "sha512-8d7nR/fNSqlTFGHti0R3F9WwIertOaaA1UEB8/jr5l5mDMOs4CidEgvvYMw4ivqrBK+vtVLxyTj2P+Pr/dtgzg=="
+  "resolved" "https://registry.npmjs.org/@types/react-router/-/react-router-5.1.16.tgz"
+  "version" "5.1.16"
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -10032,7 +10032,7 @@
   "resolved" "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.2.tgz"
   "version" "1.2.2"
 
-"ra-core@^3.14.0", "ra-core@^3.17.1":
+"ra-core@^3.14.0", "ra-core@^3.17.1", "ra-core@^3.9.0":
   "integrity" "sha512-DGlOjomeTsXR/8KJx6fuAbih/KkZmH0429/N4dEpd+8TYt8To4gfJxGyIU6TSFe49NsiOUChpcBtC2jjXKzEqQ=="
   "resolved" "https://registry.npmjs.org/ra-core/-/ra-core-3.17.1.tgz"
   "version" "3.17.1"
@@ -10053,6 +10053,13 @@
   dependencies:
     "query-string" "^5.1.1"
     "ra-core" "^3.17.1"
+
+"ra-data-simple-rest@^3.17.1":
+  "integrity" "sha512-2vrJcMjRiZI1nGu7RU5epiMep/fHoLR44jUQaP4cLfh/Gxb3JkGDmnYzxsGAybooZX9ka2hbNyDQh9hGU+2x5A=="
+  "resolved" "https://registry.npmjs.org/ra-data-simple-rest/-/ra-data-simple-rest-3.17.1.tgz"
+  "version" "3.17.1"
+  dependencies:
+    "query-string" "^5.1.1"
 
 "ra-i18n-polyglot@^3.17.1":
   "integrity" "sha512-MOBt0VG++QlmhhV1rojeUGXbtBdCYibUWCbdB+CjwqhFb3Zl5/th6VuhFjyK0l6jxALRBAQ7g3pYFlliGuKWdQ=="

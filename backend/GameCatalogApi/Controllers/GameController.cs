@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GameDataApp.Exceptions;
 using GameDataApp.Models;
 using GameDataApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -38,6 +39,8 @@ namespace GameCatalogApi.Controllers
             return Ok(res);
         }
 
+
+        // [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult<GameModel>> InsertGame([FromBody] GameInputModel gameInput)
         {
@@ -59,7 +62,7 @@ namespace GameCatalogApi.Controllers
 
         }
 
-        // PUT:
+        // [Authorize(Roles = "admin")]
         [HttpPut("{gameId}")]
         public async Task<IActionResult> UpdateGame([FromRoute] string gameId, [FromBody] GameModel gameInput)
         {
@@ -76,7 +79,7 @@ namespace GameCatalogApi.Controllers
             }
         }
 
-
+        // [Authorize(Roles = "admin")]
         [HttpDelete("{gameId}")]
         public async Task<IActionResult> DeleteGame([FromRoute] string gameId)
         {

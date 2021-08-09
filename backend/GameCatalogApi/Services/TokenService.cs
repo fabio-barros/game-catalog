@@ -19,7 +19,7 @@ namespace GameCatalogApi.Services
 
 
         }
-        public string Generatetoken(User user)
+        public string Generatetoken(UserViewModel user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_config.GetSection("JwtConfig:Secret").Value); //_config.GetValue<string>("JwtConfig:Secret") 

@@ -5,6 +5,7 @@ using GameCatalogApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserDataApp.Models;
+using UserDataApp.Services.LoginServices;
 using UserDataApp.Services.UserServices;
 
 namespace GameCatalogApi.Controllers
@@ -12,32 +13,30 @@ namespace GameCatalogApi.Controllers
 
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class HomeController : ControllerBase
+    public class LoginController : ControllerBase
     {
         private readonly ITokenService _tokenService;
 
-        private readonly IUserService _userService;
-        public HomeController(IUserService userService, ITokenService tokenService)
+        private readonly ILoginService _loginService;
+        public LoginController(ILoginService loginService, ITokenService tokenService)
         {
-            _userService = userService;
+            _loginService = loginService;
             _tokenService = tokenService;
         }
 
         [HttpPost]
-        [Route("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<dynamic>> Login([FromBody] User model)
+        public async Task<ActionResult<dynamic>> Login([FromBody] LoginInfo login)
         {
 
-            var user = await _userService.Get(model.Id);
 
-            if (user is null)
-                return BadRequest(new ArgumentNullException("vai dar não"));
+            if (login is null)
+                return BadRequest(new ArgumentNullException());
 
             try
             {
+                var user = await _loginService.Login(login);
                 var token = _tokenService.Generatetoken(user);
-                user.Password = "";
                 return new
                 {
                     user = user,
@@ -45,7 +44,6 @@ namespace GameCatalogApi.Controllers
                 };
 
             }
-            //BookAlreadyExistsException
             catch (Exception e)
             {
 

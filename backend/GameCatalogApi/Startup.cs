@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using UserDataApp.Database;
 using UserDataApp.Services.GameServices;
+using UserDataApp.Services.LoginServices;
 using UserDataApp.Services.UserServices;
 
 namespace GameCatalogApi
@@ -60,6 +61,7 @@ namespace GameCatalogApi
             services.AddDbContext<UserAppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("NpgConnectionString")));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IGameInfoService, GameInfoService>();
+            services.AddScoped<ILoginService, LoginService>();
 
             //JWT 
             var secret =

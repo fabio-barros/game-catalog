@@ -3,10 +3,11 @@ import reducers from "./reducers/rootReducer";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createLogger } from "redux-logger";
-import { GameState } from "./types/types";
+import { GameState, LoginState } from "./types/types";
 
 export interface ApplicationSate {
     gameList: GameState;
+    userLogin: LoginState;
 }
 
 // const cartItemsFromStorage = localStorage.getItem("cartItems")

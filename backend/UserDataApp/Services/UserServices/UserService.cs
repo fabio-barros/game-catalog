@@ -55,7 +55,7 @@ namespace UserDataApp.Services.UserServices
                 throw new UserAlredyExistException();
             }
 
-            var newUser = new User { FirstName = userEntity.FirstName, LastName = userEntity.LastName, Email = userEntity.Email, Password = userEntity.Password, Role = userEntity.Role, Games = userEntity.Games };
+            var newUser = new User { FirstName = userEntity.FirstName, LastName = userEntity.LastName, Email = userEntity.Email, Password = userEntity.Password, Role = userEntity.Role, Games = userEntity.Games.Select(game => new GameInfo { GameFromMongoId = game.GameFromMongoId, UserIdNavigation = game.UserIdNavigation }).ToList() };
 
             _Context.Users.Add(newUser);
 
@@ -76,7 +76,7 @@ namespace UserDataApp.Services.UserServices
 
         public async Task Update(Guid id, UserInputModel userEntity)
         {
-            var userEntityFromDb = await Get(id);//_Context.Users.FindAsync(id); //_Context.Users.Where(e => e.Id.Equals(id)).Include(e => e.Games).FirstOrDefaultAsync(); 
+            var userEntityFromDb = _Context.Users.FindAsync(id); //_Context.Users.Where(e => e.Id.Equals(id)).Include(e => e.Games).FirstOrDefaultAsync(); 
             if (userEntityFromDb == null)
             {
                 throw new UserDoesNotExistException();

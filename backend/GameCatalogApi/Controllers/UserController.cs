@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UserDataApp.Exceptions;
 using UserDataApp.Models;
 using UserDataApp.Services;
 using UserDataApp.Services.UserServices;
@@ -66,7 +67,7 @@ namespace GameCatalogApi.Controllers
 
             }
             //UserAlreadyExistsException
-            catch (Exception e)
+            catch (UserAlredyExistException e)
             {
                 return UnprocessableEntity(e.Message);
             }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using UserDataApp.Models.InputModels;
 
 namespace UserDataApp.Models
 {
@@ -8,7 +9,7 @@ namespace UserDataApp.Models
     {
         public UserInputModel()
         {
-            Games = new HashSet<GameInfo>();
+            Games = new HashSet<GameInfoInputModel>();
         }
 
         [Required]
@@ -37,7 +38,7 @@ namespace UserDataApp.Models
 
         [Required]
         public string Role { get; set; }
-        public ICollection<GameInfo> Games { get; set; }
+        public ICollection<GameInfoInputModel> Games { get; set; }
 
     }
 }

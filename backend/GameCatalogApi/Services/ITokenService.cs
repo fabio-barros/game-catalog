@@ -4,6 +4,6 @@ namespace GameCatalogApi.Services
 {
     public interface ITokenService
     {
-        public string Generatetoken(User user);
+        public string Generatetoken(UserViewModel user);
     }
 }

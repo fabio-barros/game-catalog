@@ -21,4 +21,3 @@ namespace UserDataApp.Models
     }
 
 }
-}
