@@ -17,10 +17,14 @@ namespace UserDataApp.Services.LoginServices
 
         public async Task<UserViewModel> Login(LoginInfo login)
         {
-            var user = await _Context.Users.Include(e => e.Games).FirstOrDefaultAsync(user => user.Email.Equals(login.Email) && user.Password.Equals(login.Password));
+            var user = await _Context.Users.Include(e => e.Games).FirstOrDefaultAsync(user => user.Email.Equals(login.Email));
             if (user == null)
             {
                 throw new UserDoesNotExistException();
+            }
+            else if (!user.Password.Equals(login.Password))
+            {
+                throw new WrongPasswordException();
             }
 
             return new UserViewModel

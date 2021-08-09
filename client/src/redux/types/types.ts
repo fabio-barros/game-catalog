@@ -39,10 +39,11 @@ export interface LoginResponse {
         ];
     };
     token: string;
+    auth: boolean;
 }
 
 export interface LoginState {
-    readonly data: {};
+    readonly data: LoginResponse;
     readonly loading: boolean;
-    readonly error: string;
+    readonly error: { message: string; data: string };
 }

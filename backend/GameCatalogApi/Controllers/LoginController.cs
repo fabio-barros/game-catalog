@@ -29,7 +29,6 @@ namespace GameCatalogApi.Controllers
         public async Task<ActionResult<dynamic>> Login([FromBody] LoginInfo login)
         {
 
-
             if (login is null)
                 return BadRequest(new ArgumentNullException());
 
@@ -39,20 +38,20 @@ namespace GameCatalogApi.Controllers
                 var token = _tokenService.Generatetoken(user);
                 return new
                 {
+
                     user = user,
-                    token = token
+                    token = token,
+                    auth = true
                 };
 
             }
             catch (Exception e)
             {
-
                 return UnprocessableEntity(e.Message);
             }
         }
 
         [HttpGet]
-        [Route("anonymous")]
         [AllowAnonymous]
         public string Anonymous() => "Anonymous";
 

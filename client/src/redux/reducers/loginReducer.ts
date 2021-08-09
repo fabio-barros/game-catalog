@@ -2,13 +2,29 @@ import { Reducer } from "redux";
 import { ActionType, LoginState, LoginResponse } from "../types/types";
 
 const LOGIN_INITIAL_STATE: LoginState = {
-    data: {},
+    data: {
+        user: {
+            id: "",
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            role: "",
+            games: [
+                {
+                    gameFromMongoId: "",
+                },
+            ],
+        },
+        token: "",
+        auth: false,
+    },
     loading: false,
-    error: "",
+    error: { message: "", data: "" },
 };
 
 export const userLoginReducer: Reducer<LoginState> = (
-    state: LoginState = LOGIN_INITIAL_STATE,
+    state = LOGIN_INITIAL_STATE,
     action
 ) => {
     switch (action.type) {
@@ -18,7 +34,7 @@ export const userLoginReducer: Reducer<LoginState> = (
             return {
                 ...state,
                 loading: false,
-                error: "",
+                error: { message: "", data: "" },
                 data: action.payload,
             };
         case ActionType.USER_LOGIN_FAIL:
@@ -26,7 +42,7 @@ export const userLoginReducer: Reducer<LoginState> = (
                 ...state,
                 loading: false,
                 error: action.payload,
-                data: [],
+                data: LOGIN_INITIAL_STATE.data,
             };
         default:
             return state;
