@@ -26,9 +26,10 @@ const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/" component={Home} exact />
-                <Route path="/login" component={Login} />
-                <Route path="/home" component={Home} exact />
+                <Route exact path="/" component={Home} />
+                <Route exact path="/home" component={Home} />
+                <Route exact path="/auth/signin" component={Login} />
+                {/* <Route path="/auth/register" component={Login} /> */}
                 <PrivateRoute
                     path="/home/favorites"
                     component={Favorites}

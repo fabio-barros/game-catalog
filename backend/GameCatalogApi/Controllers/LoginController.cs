@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics.Eventing.Reader;
 using System.Threading.Tasks;
 using GameCatalogApi.Models;
 using GameCatalogApi.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserDataApp.Models;
 using UserDataApp.Services.LoginServices;
@@ -36,9 +38,10 @@ namespace GameCatalogApi.Controllers
             {
                 var user = await _loginService.Login(login);
                 var token = _tokenService.Generatetoken(user);
+                HttpContext.Response.Cookies.Append("access_token", token, new CookieOptions { Expires = DateTime.Now.AddHours(1) });
+
                 return new
                 {
-
                     user = user,
                     token = token,
                     auth = true

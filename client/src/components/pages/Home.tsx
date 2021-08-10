@@ -86,6 +86,7 @@ export const Home: FC<HomeProps> = () => {
         <Fragment>
             <Container className="games-wrapper">
                 <h1>Games</h1>
+
                 {loading ? (
                     <Loader />
                 ) : error ? (
