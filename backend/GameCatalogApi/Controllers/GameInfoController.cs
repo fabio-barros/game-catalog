@@ -52,26 +52,23 @@ namespace GameCatalogApi.Controllers
             return Ok(userGameFromDb);
         }
 
-        // [HttpPost("{userId:guid}")]
-        // public async Task<ActionResult<User>> AddUserGameInfo([FromRoute] Guid userId, [FromBody] GameInfoInputModel gameInfoInputModelEntity)
-        // {
+        [HttpPost]
+        public async Task<ActionResult<User>> AddUserGameInfo([FromBody] GameInfoInputModel2 entity)
+        {
 
-        //     if (gameInfoInputModelEntity is null)
-        //         return BadRequest(new ArgumentNullException());
+            try
+            {
+                var userEntity = await _gameService.Add(entity);
 
-        //     try
-        //     {
-        //         var gameEntity = await _gameService.Add(gameInfoInputModelEntity);
+                return Created(nameof(GetUserGame), userEntity);
 
-        //         return Created(nameof(GetUserGame), gameEntity);
-
-        //     }
-        //     //UserAlreadyExistsException
-        //     catch (Exception e)
-        //     {
-        //         return UnprocessableEntity(e.Message);
-        //     }
-        // }
+            }
+            //UserAlreadyExistsException
+            catch (Exception e)
+            {
+                return UnprocessableEntity(e.Message);
+            }
+        }
 
 
         // [HttpPut("{userId:guid}")]

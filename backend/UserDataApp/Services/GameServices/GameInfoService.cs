@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using GameDataApp.Mongo;
 using Microsoft.EntityFrameworkCore;
 using UserDataApp.Database;
+using UserDataApp.Exceptions;
 using UserDataApp.Models;
+using UserDataApp.Models.InputModels;
 
 namespace UserDataApp.Services.GameServices
 {
@@ -47,23 +49,20 @@ namespace UserDataApp.Services.GameServices
             return await _Context.GameInfo.FirstOrDefaultAsync(g => g.UserIdNavigation.Id.Equals(id) && g.GameFromMongoId.Equals(gameFromMongoId));
         }
 
-        // public async Task<User> Add(UserInputModel userEntity)
-        // {
-        //     var entity = await _userContext.Users.AnyAsync(user => user.Email.Equals(userEntity.Email));
+        public async Task<User> Add(GameInfoInputModel2 entity)
+        {
+            var userEntity = await _Context.Users.FirstOrDefaultAsync(user => user.Id.Equals(entity.userId));
+            if (userEntity == null)
+            {
+                throw new UserDoesNotExistException();
+            }
 
-        //     if (entity)
-        //     {
-        //         throw new Exception("Email já cadastrado");
-        //     }
+            // _Context.GameInfo.Add(new GameInfo { GameFromMongoId = entity.GameFromMongoId, UserIdNavigation =  });
 
-        //     var newUser = new User { FirstName = userEntity.FirstName, LastName = userEntity.LastName, Email = userEntity.Email, Password = userEntity.Password, Role = userEntity.Role, Games = userEntity.Games };
+            await _Context.SaveChangesAsync();
 
-        //     _userContext.Users.Add(newUser);
-
-        //     await _userContext.SaveChangesAsync();
-
-        //     return await _userContext.Users.FirstOrDefaultAsync(x => x.Email == userEntity.Email);
-        // }
+            return await _Context.Users.FirstOrDefaultAsync(x => x.Email == userEntity.Email);
+        }
 
         // public async Task Update(Guid id, UserInputModel userEntity)
         // {

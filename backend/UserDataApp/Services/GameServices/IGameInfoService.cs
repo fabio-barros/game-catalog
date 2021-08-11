@@ -12,7 +12,7 @@ namespace UserDataApp.Services.GameServices
 
         Task<GameInfo> Get(Guid id, string gameFromMongoId);
 
-        // Task<GameInfo> Add(GameInfoInputModel gameEntity); //Guid id,
+        Task<User> Add(GameInfoInputModel2 entity); //Guid id,
 
         // Task Update(Guid id, GameInfoInputModel gameEntity);
         // Task Delete(Guid id, string gameFromMongoId);

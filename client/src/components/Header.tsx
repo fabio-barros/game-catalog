@@ -1,14 +1,25 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Icon } from "@iconify/react";
+import { isAuthenticated } from "../authentication/auth";
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = ({}) => {
+    const [loginStatus, setLoginStatus] = useState("");
+
+    const getAuthUser = async () => {
+        setLoginStatus(await isAuthenticated());
+    };
+
+    useEffect(() => {
+        getAuthUser();
+    }, [getAuthUser, loginStatus]);
+
     return (
         <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
             <Container>
-                <LinkContainer to="/">
+                <LinkContainer to="/home">
                     <Navbar.Brand>Games</Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -18,11 +29,17 @@ export const Header: FC<HeaderProps> = ({}) => {
                             <Nav.Link>
                                 <Icon
                                     icon="bx:bxs-user"
-                                    color="#4cbb17"
+                                    color={
+                                        loginStatus === "Unauthorized"
+                                            ? "#4cbb17"
+                                            : "#FF5733"
+                                    }
                                     width="20"
                                     height="20"
                                 />
-                                Login
+                                {loginStatus === "Unauthorized"
+                                    ? " Sign In / Sign Up"
+                                    : " Sign Out"}
                             </Nav.Link>
                         </LinkContainer>
                         <LinkContainer to="/favorites">

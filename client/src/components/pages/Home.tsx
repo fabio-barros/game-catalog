@@ -1,10 +1,11 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, useCallback, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { isAuthenticated } from "../../authentication/auth";
 import { listProducts } from "../../redux/actions/gameActions";
+import { isUserAthenticatedAction } from "../../redux/actions/loginActions";
 import { ApplicationSate } from "../../redux/store";
-import { GameState } from "../../redux/types/types";
+import { GameState, IsAuthenticatedState } from "../../redux/types/types";
 import { GameCard } from "../GameCard";
 import { Loader } from "../Loader";
 import { Message } from "../Message";
@@ -74,17 +75,36 @@ export const Home: FC<HomeProps> = () => {
     const dispatch = useDispatch();
 
     const gameList: GameState = useSelector((state: ApplicationSate) => {
-        console.log(`state: ${state}`);
         return state.gameList;
     });
 
     const { loading, error, data } = gameList;
 
+    const isUserAuthenticated: IsAuthenticatedState = useSelector(
+        (state: ApplicationSate) => {
+            return state.isAuthenticated;
+        }
+    );
+
+    const {
+        loading: isAuthLoading,
+        error: isAuthError,
+        data: isAuthData,
+    } = isUserAuthenticated;
+
+    // useEffect(() => {
+    //     const getAuthUser = async () => {
+    //         const stat = await isAuthenticated();
+    //         setLoginStatus(stat);
+    //     };
+    //     getAuthUser();
+    // }, [loginStatus]);
+
     useEffect(() => {
         console.log("howdy!");
         dispatch(listProducts());
+        dispatch(isUserAthenticatedAction());
     }, [dispatch]);
-
     const getAuthUser = async () => {
         const stat = await isAuthenticated();
         setLoginStatus(stat);

@@ -30,7 +30,7 @@ namespace GameCatalogApi.Services
                     new Claim(ClaimTypes.Role, user.Role.ToString()),
                     new Claim(ClaimTypes.Name, string.Join(" ", new[] {user.FirstName.ToString(), user.LastName.ToString()})),
               }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddMinutes(15),
                 SigningCredentials =
                   new SigningCredentials(new SymmetricSecurityKey(key),
                   SecurityAlgorithms.HmacSha256Signature)

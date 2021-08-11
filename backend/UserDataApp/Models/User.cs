@@ -42,7 +42,5 @@ namespace UserDataApp.Models
 
         public virtual ICollection<GameInfo> Games { get; set; }
 
-
-
     }
 }

@@ -5,7 +5,7 @@ import { LoginState } from "../redux/types/types";
 import { Message } from "./Message";
 
 interface LoginFormProps {
-    loginHandler: (e: FormEvent<HTMLElement>) => Promise<void>;
+    loginHandler: (e: FormEvent<HTMLElement>) => void;
     setEmailLog: (value: React.SetStateAction<string>) => void;
     setPasswordLog: (value: React.SetStateAction<string>) => void;
     userLoginResponse: LoginState;

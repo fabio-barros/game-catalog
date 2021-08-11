@@ -3,11 +3,18 @@ import reducers from "./reducers/rootReducer";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createLogger } from "redux-logger";
-import { GameState, LoginState } from "./types/types";
+import {
+    GameState,
+    IsAuthenticatedState,
+    LoginState,
+    SignUpState,
+} from "./types/types";
 
 export interface ApplicationSate {
     gameList: GameState;
     userLogin: LoginState;
+    isAuthenticated: IsAuthenticatedState;
+    signup: SignUpState;
 }
 
 // const cartItemsFromStorage = localStorage.getItem("cartItems")

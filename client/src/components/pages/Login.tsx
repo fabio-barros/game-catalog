@@ -10,14 +10,23 @@ import {
 } from "react";
 import { Button, Card, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { LoginResponse, LoginState } from "../../redux/types/types";
-import { userLoginAction } from "../../redux/actions/loginActions";
+import {
+    LoginResponse,
+    LoginState,
+    SignUpState,
+} from "../../redux/types/types";
+import {
+    isUserAthenticatedAction,
+    userLoginAction,
+} from "../../redux/actions/loginActions";
 import store, { ApplicationSate } from "../../redux/store";
 import { Redirect, Route, RouteComponentProps } from "react-router";
 import { Home } from "./Home";
 import { LoginForm } from "../LoginForm";
 import { Loader } from "../Loader";
 import { Message } from "../Message";
+import { RegisterForm } from "../RegisterForm";
+import { Register } from "./Register";
 
 interface LoginProps extends RouteComponentProps {}
 
@@ -36,7 +45,6 @@ export const Login: FC<LoginProps> = ({ location }) => {
 
     const userLoginResponse: LoginState = useSelector(
         (state: ApplicationSate) => {
-            console.log(`state: ${state}`);
             return state.userLogin;
         }
     );
@@ -48,12 +56,16 @@ export const Login: FC<LoginProps> = ({ location }) => {
         console.log(data);
     };
 
-    const loginHandler = async (e: FormEvent<HTMLElement>) => {
+    const loginHandler = (e: FormEvent<HTMLElement>) => {
         e.preventDefault();
         fetchUserData();
 
         console.log(data);
     };
+
+    // if (data.token) {
+    //     localStorage.setItem("token", JSON.stringify(data.token));
+    // }
 
     useEffect(() => {
         localStorage.setItem("token", JSON.stringify(data.token));
@@ -88,7 +100,9 @@ export const Login: FC<LoginProps> = ({ location }) => {
                     />
                 ) : null}
             </Tab>
-            <Tab eventKey="register" title="Register"></Tab>
+            <Tab eventKey="register" title="Register">
+                <Register />
+            </Tab>
         </Tabs>
     );
 };

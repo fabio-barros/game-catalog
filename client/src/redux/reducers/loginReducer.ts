@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { ActionType, LoginState, LoginResponse } from "../types/types";
+import { ActionType, LoginState, IsAuthenticatedState } from "../types/types";
 
 const LOGIN_INITIAL_STATE: LoginState = {
     data: {
@@ -10,11 +10,6 @@ const LOGIN_INITIAL_STATE: LoginState = {
             email: "",
             password: "",
             role: "",
-            games: [
-                {
-                    gameFromMongoId: "",
-                },
-            ],
         },
         token: "",
         auth: false,
@@ -49,26 +44,32 @@ export const userLoginReducer: Reducer<LoginState> = (
     }
 };
 
-export const userRegisterReducer: Reducer<LoginState> = (
-    state = LOGIN_INITIAL_STATE,
+const IS_AUTHENTICATED_INITIAL_STATE: IsAuthenticatedState = {
+    data: "",
+    loading: false,
+    error: "",
+};
+
+export const isUserAthenticatedReducer: Reducer<IsAuthenticatedState> = (
+    state = IS_AUTHENTICATED_INITIAL_STATE,
     action
 ) => {
     switch (action.type) {
-        case ActionType.USER_LOGIN_REQUEST:
+        case ActionType.IS_USER_AUTHENTICATED_REQUEST:
             return { ...state, loading: true };
-        case ActionType.USER_LOGIN_SUCCESS:
+        case ActionType.IS_USER_AUTHENTICATED_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                error: { message: "", data: "" },
+                error: "",
                 data: action.payload,
             };
-        case ActionType.USER_LOGIN_FAIL:
+        case ActionType.IS_USER_AUTHENTICATED_FAIL:
             return {
                 ...state,
                 loading: false,
                 error: action.payload,
-                data: LOGIN_INITIAL_STATE.data,
+                data: "",
             };
         default:
             return state;
