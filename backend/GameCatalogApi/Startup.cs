@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using UserDataApp.Database;
 using UserDataApp.Services.GameServices;
@@ -41,7 +42,7 @@ namespace GameCatalogApi
             services.AddCors(options =>
             {
                 options.AddPolicy("corsPolicy", options => options.AllowAnyOrigin()
-                    .AllowAnyMethod().AllowAnyHeader());
+                    .AllowAnyMethod().AllowAnyHeader().WithExposedHeaders(HeaderNames.ContentRange));
 
             });
 

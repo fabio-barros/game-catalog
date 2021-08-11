@@ -29,8 +29,8 @@ type errorType = {
 };
 
 export const Login: FC<LoginProps> = ({ location }) => {
-    const [emailReg, setEmailReg] = useState("");
-    const [passwordReg, setPasswordReg] = useState("");
+    const [emailLog, setEmailLog] = useState("");
+    const [passwordLog, setPasswordLog] = useState("");
 
     const dispatch: Dispatch<any> = useDispatch();
 
@@ -44,7 +44,7 @@ export const Login: FC<LoginProps> = ({ location }) => {
     const { loading, error, data } = userLoginResponse;
 
     const fetchUserData = () => {
-        dispatch(userLoginAction(emailReg, passwordReg));
+        dispatch(userLoginAction(emailLog, passwordLog));
         console.log(error);
     };
 
@@ -58,8 +58,8 @@ export const Login: FC<LoginProps> = ({ location }) => {
     return (
         <>
             <LoginForm
-                setEmailReg={setEmailReg}
-                setPasswordReg={setPasswordReg}
+                setEmailLog={setEmailLog}
+                setPasswordLog={setPasswordLog}
                 loginHandler={loginHandler}
                 userLoginResponse={userLoginResponse}
             />

@@ -24,7 +24,9 @@ namespace GameCatalogApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<GameModel>>> GetGames()
         {
-            return Ok(await _gameServices.GetGames());
+            var games = await _gameServices.GetGames();
+            Response.Headers.Add("Content-Range", $"games 0-5/{games.Count}");
+            return Ok(games);
         }
 
         [HttpGet("{gameId}", Name = "GetGame")]

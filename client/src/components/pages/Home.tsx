@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../../redux/actions/gameActions";
 import { ApplicationSate } from "../../redux/store";
 import { GameState } from "../../redux/types/types";
+import { GameCard } from "../GameCard";
 import { Loader } from "../Loader";
 import { Message } from "../Message";
 
@@ -85,8 +86,6 @@ export const Home: FC<HomeProps> = () => {
     return (
         <Fragment>
             <Container className="games-wrapper">
-                <h1>Games</h1>
-
                 {loading ? (
                     <Loader />
                 ) : error ? (
@@ -94,7 +93,11 @@ export const Home: FC<HomeProps> = () => {
                 ) : (
                     <Row>
                         {data.map((game) => {
-                            return <Col>{game.title}</Col>;
+                            return (
+                                <Col key={game.id} sm={12} md={6} lg={4} xl={3}>
+                                    <GameCard game={game} />
+                                </Col>
+                            );
                         })}
                     </Row>
                 )}

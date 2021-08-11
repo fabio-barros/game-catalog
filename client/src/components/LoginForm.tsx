@@ -6,15 +6,15 @@ import { Message } from "./Message";
 
 interface LoginFormProps {
     loginHandler: (e: FormEvent<HTMLElement>) => Promise<void>;
-    setEmailReg: (value: React.SetStateAction<string>) => void;
-    setPasswordReg: (value: React.SetStateAction<string>) => void;
+    setEmailLog: (value: React.SetStateAction<string>) => void;
+    setPasswordLog: (value: React.SetStateAction<string>) => void;
     userLoginResponse: LoginState;
 }
 
 export const LoginForm: FC<LoginFormProps> = ({
     loginHandler,
-    setEmailReg,
-    setPasswordReg,
+    setEmailLog,
+    setPasswordLog,
     userLoginResponse: { loading, error, data },
 }) => {
     return (
@@ -37,7 +37,7 @@ export const LoginForm: FC<LoginFormProps> = ({
                             type="email"
                             placeholder="Enter your email"
                             required
-                            onChange={(e) => setEmailReg(e.target.value)}
+                            onChange={(e) => setEmailLog(e.target.value)}
                         />
                     </Form.Group>
 
@@ -49,7 +49,7 @@ export const LoginForm: FC<LoginFormProps> = ({
                             required
                             minLength={8}
                             maxLength={20}
-                            onChange={(e) => setPasswordReg(e.target.value)}
+                            onChange={(e) => setPasswordLog(e.target.value)}
                         />
                     </Form.Group>
                     <Button variant="primary" type="submit">

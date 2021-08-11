@@ -5,14 +5,10 @@ interface LoaderProps {}
 
 export const Loader: FC<LoaderProps> = ({}) => {
     return (
-        <Row>
-            <Col>
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-                {/* <span className="sr-only">Carregando...</span>
-                </Spinner> */}
-            </Col>
+        <Row className="loader-wrapper">
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
         </Row>
     );
 };
