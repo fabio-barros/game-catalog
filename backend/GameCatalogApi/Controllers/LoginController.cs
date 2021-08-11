@@ -39,6 +39,7 @@ namespace GameCatalogApi.Controllers
                 var user = await _loginService.Login(login);
                 var token = _tokenService.Generatetoken(user);
                 HttpContext.Response.Cookies.Append("access_token", token, new CookieOptions { Expires = DateTime.Now.AddMinutes(15) });
+                HttpContext.Response.Cookies.Append("access_token", token, new CookieOptions { Expires = DateTime.Now.AddMinutes(15) });
 
 
                 return new
@@ -62,7 +63,7 @@ namespace GameCatalogApi.Controllers
         [HttpGet]
         [Route("authenticated")]
         [Authorize]
-        public string Authenticated() => $"Authenticated: {User.Identity.Name}";
+        public string Authenticated() => $"{User.Identity.Name}";
 
         [HttpGet]
         [Route("user")]

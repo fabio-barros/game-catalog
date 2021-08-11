@@ -48,3 +48,29 @@ export const userLoginReducer: Reducer<LoginState> = (
             return state;
     }
 };
+
+export const userRegisterReducer: Reducer<LoginState> = (
+    state = LOGIN_INITIAL_STATE,
+    action
+) => {
+    switch (action.type) {
+        case ActionType.USER_LOGIN_REQUEST:
+            return { ...state, loading: true };
+        case ActionType.USER_LOGIN_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                error: { message: "", data: "" },
+                data: action.payload,
+            };
+        case ActionType.USER_LOGIN_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+                data: LOGIN_INITIAL_STATE.data,
+            };
+        default:
+            return state;
+    }
+};

@@ -1,6 +1,7 @@
 import { ActionType } from "../types/types";
 import { Dispatch } from "redux";
 import axios from "axios";
+import { errorTreatment } from "./errorTreatment";
 
 export const userLoginAction =
     (email: string, password: string) => async (dispatch: Dispatch) => {
@@ -19,16 +20,7 @@ export const userLoginAction =
         } catch (error) {
             dispatch({
                 type: ActionType.USER_LOGIN_FAIL,
-                payload:
-                    error.response.status === 400
-                        ? {
-                              message: error.message,
-                              data: error.response.data.errors,
-                          }
-                        : error.response.status === 402 ||
-                          error.response.status === 422
-                        ? { message: error.message, data: error.response.data }
-                        : error,
+                payload: errorTreatment(error),
             });
         }
     };

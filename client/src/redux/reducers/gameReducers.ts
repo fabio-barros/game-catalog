@@ -14,7 +14,7 @@ const INITIAL_STATE: GameState = {
         },
     ],
     loading: false,
-    error: "",
+    error: { message: "", data: "" },
 };
 
 export const gameListReducer: Reducer<GameState> = (
@@ -28,7 +28,7 @@ export const gameListReducer: Reducer<GameState> = (
             return {
                 ...state,
                 loading: false,
-                error: "",
+                error: { message: "", data: "" },
                 data: action.payload,
             };
         case ActionType.GAME_LIST_FAIL:

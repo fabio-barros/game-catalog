@@ -8,11 +8,11 @@ import {
     useState,
     Component,
 } from "react";
-import { Button, Card, Form, Row } from "react-bootstrap";
+import { Button, Card, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginResponse, LoginState } from "../../redux/types/types";
 import { userLoginAction } from "../../redux/actions/loginActions";
-import { ApplicationSate } from "../../redux/store";
+import store, { ApplicationSate } from "../../redux/store";
 import { Redirect, Route, RouteComponentProps } from "react-router";
 import { Home } from "./Home";
 import { LoginForm } from "../LoginForm";
@@ -45,32 +45,50 @@ export const Login: FC<LoginProps> = ({ location }) => {
 
     const fetchUserData = () => {
         dispatch(userLoginAction(emailLog, passwordLog));
-        console.log(error);
+        console.log(data);
     };
 
     const loginHandler = async (e: FormEvent<HTMLElement>) => {
         e.preventDefault();
         fetchUserData();
+
+        console.log(data);
     };
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        localStorage.setItem("token", JSON.stringify(data.token));
+    }, [data.token]);
 
     return (
-        <>
-            <LoginForm
-                setEmailLog={setEmailLog}
-                setPasswordLog={setPasswordLog}
-                loginHandler={loginHandler}
-                userLoginResponse={userLoginResponse}
-            />
-            {data.auth && (
-                <Redirect
-                    to={{
-                        pathname: "/home",
-                        state: { from: location },
-                    }}
+        <Tabs
+            defaultActiveKey="login"
+            id="uncontrolled-tab-example"
+            className="mb-3"
+        >
+            <Tab eventKey="login" title="Login">
+                <LoginForm
+                    setEmailLog={setEmailLog}
+                    setPasswordLog={setPasswordLog}
+                    loginHandler={loginHandler}
+                    userLoginResponse={userLoginResponse}
                 />
-            )}
-        </>
+                {data.user.role === "user" ? (
+                    <Redirect
+                        to={{
+                            pathname: "/favorites",
+                            state: { from: location },
+                        }}
+                    />
+                ) : data.user.role === "admin" ? (
+                    <Redirect
+                        to={{
+                            pathname: "/home",
+                            state: { from: location },
+                        }}
+                    />
+                ) : null}
+            </Tab>
+            <Tab eventKey="register" title="Register"></Tab>
+        </Tabs>
     );
 };

@@ -1,6 +1,7 @@
-import { FC, Fragment, useEffect } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { isAuthenticated } from "../../authentication/auth";
 import { listProducts } from "../../redux/actions/gameActions";
 import { ApplicationSate } from "../../redux/store";
 import { GameState } from "../../redux/types/types";
@@ -69,9 +70,10 @@ const games = [
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = () => {
+    const [loginStatus, setLoginStatus] = useState("");
     const dispatch = useDispatch();
 
-    const gameList = useSelector((state: ApplicationSate) => {
+    const gameList: GameState = useSelector((state: ApplicationSate) => {
         console.log(`state: ${state}`);
         return state.gameList;
     });
@@ -83,13 +85,29 @@ export const Home: FC<HomeProps> = () => {
         dispatch(listProducts());
     }, [dispatch]);
 
+    const getAuthUser = async () => {
+        const stat = await isAuthenticated();
+        setLoginStatus(stat);
+    };
+
+    useEffect(() => {
+        getAuthUser();
+    }, [getAuthUser, loginStatus]);
+
     return (
         <Fragment>
+            <Message
+                variant={loginStatus === "Unauthorized" ? "warning" : "success"}
+            >
+                {loginStatus === "Unauthorized"
+                    ? "Sign in to add games to you list."
+                    : `Hi, ${loginStatus}`}
+            </Message>
             <Container className="games-wrapper">
                 {loading ? (
                     <Loader />
-                ) : error ? (
-                    <Message variant="danger">{error}</Message>
+                ) : error.data ? (
+                    <Message variant="danger">{error.data}</Message>
                 ) : (
                     <Row>
                         {data.map((game) => {

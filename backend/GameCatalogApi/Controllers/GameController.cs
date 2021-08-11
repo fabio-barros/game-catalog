@@ -22,6 +22,7 @@ namespace GameCatalogApi.Controllers
         }
 
         [HttpGet]
+        // [Authorize]
         public async Task<ActionResult<List<GameModel>>> GetGames()
         {
             var games = await _gameServices.GetGames();

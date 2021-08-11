@@ -1,5 +1,5 @@
-import { FC, Fragment } from "react";
-import { Card } from "react-bootstrap";
+import { FC, Fragment, useState } from "react";
+import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { GameInterface } from "../redux/types/types";
 
@@ -17,6 +17,9 @@ export const GameCard: FC<GameCardProps> = ({ game }) => {
         coverArtUrl,
         price,
     } = game;
+
+    const [favoriteStatus, setFavoriteStatus] = useState(false);
+
     return (
         <Card className="my-2 border-0" style={{ width: "11em" }}>
             <Card.Img
@@ -32,8 +35,15 @@ export const GameCard: FC<GameCardProps> = ({ game }) => {
                 <Card.Subtitle>
                     <strong>{new Date(releaseDate).getFullYear()}</strong>
                 </Card.Subtitle>
-
-                <Card.Text as="div"></Card.Text>
+                <Button
+                    // onClick={}
+                    className="btn-block"
+                    type="button"
+                    // disabled={product.numInStock === 0}
+                >
+                    Adicionar ao carrinho
+                </Button>
+                ;<Card.Text as="div"></Card.Text>
                 {/* <Card.Text as="h3">R${price}</Card.Text> */}
             </Card.Body>
         </Card>

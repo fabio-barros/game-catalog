@@ -21,7 +21,7 @@ export interface GameInterface {
 export interface GameState {
     readonly data: GameInterface[];
     readonly loading: boolean;
-    readonly error: string;
+    readonly error: { message: string; data: string };
 }
 
 export interface LoginResponse {
