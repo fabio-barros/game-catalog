@@ -1,3 +1,4 @@
+
 🖥  Game Catalog.
 
 ### ⚙️  Structure
@@ -30,16 +31,20 @@ Create a .env file with the following values
     REACT_APP_GAME_CATALOG_API_GAME_INFO = https://localhost:5001/api/v1/GameInfo
     REACT_APP_GAME_CATALOG_API_USER = https://localhost:5001/api/v1/User
     REACT_APP_GAME_CATALOG_API_LOGIN = https://localhost:5001/api/v1/Login
+    
 **Server:** 
 
  1. Add a Postgres connection string the "NpgConnectionString" field in appsettings.json
-
-     "NpgConnectionString": "<NPG_CONNECTION_STRING>"
-        
+    
+        "NpgConnectionString": "<NPG_CONNECTION_STRING>"
+         
  2. Add a JWT secret to the Secret field in appsettings.json
-`"Secret": "JWT_SECRET"    
+
+        "Secret": "<JWT_SECRET>"
+        
 
 3. Create a User Secret with the Mongo DB Atlas Connection String on the API project
+        
+        dotnet user-secrets init 
+        dotnet user-secrets set "CONNECTION_STRING""<MONGO_DB_CONNECTION_STRING>"
 
-    dotnet user-secrets init
-    dotnet user-secrets set "CONNECTION_STRING" "MONGO_DB_CONNECTION_STRING"
